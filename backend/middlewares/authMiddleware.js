@@ -21,16 +21,8 @@ const authAndRoleMiddleware = (roles = [])=>{
               message: "User not found",
               success: false,
             });
-          }
-        if(roles){
-            console.log(`route is allowed for roles : ${roles}`);
-            if(!roles.includes(user.role.toLowerCase())){
-                return res.status(403).json({
-                    message: 'you are not authorized to access the endpoint'
-                })
-            }   
-        }    
-        req.userId=user.id;
+          } 
+        req.userId=user._id;
         next();
     }
     catch(error){
