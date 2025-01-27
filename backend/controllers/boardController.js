@@ -12,21 +12,21 @@ const createBoard = async (req, res, next) => {
                 success: false
             })
         }
-        const collaborators = [{
-            collaboratorId: req.userId,
-            collaboratorRole: 'OWNER',
+        const members = [{
+            memberId: req.userId,
+            memberRole: 'OWNER',
             lastAccessedDate: NULL
         }]
         const newBoard = Board.create({
             boardTitle,
             boardDescription,
-            createdBy: req.userId,
-            collaborators
+            //createdBy: req.userId,
+            members
         })
         res.status(200).json({
             message: "Board created successfully",
             success: true,
-            board: savedBoard,
+            board: newBoard,
         })
     }
     catch (error) {
@@ -42,21 +42,21 @@ const createBoard = async (req, res, next) => {
 //create board with members
 const createBoardWithMembers = async (req, res, next) => {
     try {
-        const { boardTitle, boardDescription, collaborators } = req.body;
+        const { boardTitle, boardDescription, members } = req.body;
         // const user = await User.findById(req.userId);
-        let collaboratorsObj = []
+        let membersObj = []
 
-        for (let i = 0; i < collaborators.size(); i++) {
-            collaboratorsObj.push({
-                collabpratorId: collaborators[i].collaboratorId,
-                collaboratorRole: collaborators[i].role,
+        for (let i = 0; i < members.size(); i++) {
+            membersObj.push({
+                memberId: members[i].memberId,
+                memberRole: members[i].role,
                 lastAccessedDate: null
             })
         }
         const board = await Board.create({
             boardTitle,
             boardDescription,
-            collaborators: collaboratorsObj
+            members: membersObj
         })
         res.status(200).json({
             message: "Board created with collaborators successfully",
@@ -86,8 +86,8 @@ const getBoardbyId = async (req, res, next) => {
         }
 
         const board = await Board.findById(boardId)
-            .populate('createdBy', 'username email')
-            .populate('collaborators', 'username email')
+            //.populate('createdBy', 'username email')
+            .populate('members', 'username email')
         if (!board) {
             res.status(404).json({
                 message: "Board doesnot exist",
@@ -145,7 +145,7 @@ const deleteBoardById = async (req, res, next) => {
 }
 
 // get board members using boardid
-const getCollaborators = async (req, res, next) => {
+const getMembers = async (req, res, next) => {
     try {
         const boardId = req.params
         if (!mongoose.Types.ObjectId.isValid(boardId)) {
@@ -154,7 +154,7 @@ const getCollaborators = async (req, res, next) => {
                 success: false
             });
         }
-        const board = await Board.findById(boardId).populate('collaborators', 'username email');
+        const board = await Board.findById(boardId).populate('members', 'username email');
         if (!board) {
             res.status(404).json({
                 message: "Board does not exist",
@@ -163,9 +163,9 @@ const getCollaborators = async (req, res, next) => {
         }
 
         res.status(200).json({
-            message: "Collaborators fetched successfully",
+            message: "Memebers fetched successfully",
             success: true,
-            collaborators: board.collaborators
+            members: board.members
         })
     }
     catch (error) {
@@ -179,7 +179,7 @@ const getCollaborators = async (req, res, next) => {
 
 // add collaborator
 
-const addCollaborator = async (req, res, next) => {
+const addMember = async (req, res, next) => {
     try {
         const { boardId } = req.params;
         if (!mongoose.Types.ObjectId.isValid(boardId)) {
@@ -189,7 +189,7 @@ const addCollaborator = async (req, res, next) => {
             });
         }
 
-        const { collaboratorId, role } = req.body;
+        const { memberId, role } = req.body;
         const userId = req.userId;
 
         const board = await Board.findById(boardId)
@@ -207,22 +207,22 @@ const addCollaborator = async (req, res, next) => {
                 success: false,
             })
         }
-        const collaborator = await User.findById(collaboratorId)
-        if (!collaborator) {
+        const member = await User.findById(memberId)
+        if (!member) {
             return res.status(404).json({
-                message: 'Collaborator not found',
+                message: 'Member not found',
                 success: false,
             });
         }
-        if (board.collaborators.includes(collaboratorId)) {
+        if (board.members.includes(collaboratorId)) {
             return res.status(400).json({
                 message: 'User is already a collaborator on this board',
                 success: false,
             });
         }
-        board.collaborators.push({
-            collaboratorId,
-            collaboratorRole: role || 'VIEWER',
+        board.members.push({
+            memberId,
+            memberRole: role || 'VIEWER',
             lastAccessedDate: null
         })
         await board.save();
@@ -263,25 +263,25 @@ const removeUserFromBoard = async (req, res, next) => {
         });
       }
   
-      if (board.createdBy.toString() !== userId.toString()) {
-        return res.status(403).json({
-          message: "You are not authorized to remove a user",
-          success: false,
-        });
-      }
+    //   if (board.createdBy.toString() !== userId.toString()) {
+    //     return res.status(403).json({
+    //       message: "You are not authorized to remove a user",
+    //       success: false,
+    //     });
+    //   }
   
-      const collaboratorIndex = board.collaborators.findIndex(
-        (collaborator) => collaborator.collaboratorId.toString() === idTobeRemoved.toString()
+      const memberIndex = board.members.findIndex(
+        (member) => member.memberId.toString() === idTobeRemoved.toString()
       );
   
-      if (collaboratorIndex === -1) {
+      if (memberIndex === -1) {
         return res.status(404).json({
           message: "User not found in collaborators",
           success: false,
         });
       }
   
-      board.collaborators.splice(collaboratorIndex, 1);
+      board.members.splice(memberIndex, 1);
       await board.save();
   
       res.status(200).json({
@@ -311,14 +311,14 @@ const getBoardsOfUser = async (req,res,next)=>{
         })
     }
     const boardsOfCurrentUser = await Board.find({
-        'collaborators.collaboratorId':userId
+        'members.memberId':userId
     })
     const allBoards = boardsOfCurrentUser.map((board)=>{
-        const collaborator = board.collaborators.find(m=>m.collaboratorId===userId);
+        const member = board.members.find(m=>m.memberId===userId);
         return {
             ...board._doc,
-            role:collaborator?collaborator.collaboratorRole:'N/A',
-            lastAccessedDate:collaborator?collaborator.lastAccessedDate:null
+            role:member?member.memberRole:'N/A',
+            lastAccessedDate:member?member.lastAccessedDate:null
         }
     })
     res.status(200).json({
@@ -341,7 +341,7 @@ export {
     createBoardWithMembers,
     getBoardbyId,
     deleteBoardById,
-    getCollaborators,
-    addCollaborator,
+    getMembers,
+    addMember,
     removeUserFromBoard,
   };

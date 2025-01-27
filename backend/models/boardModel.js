@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 const {schema} = mongoose;
 
-const boardSchema = new schema({
+const boardSchema = new mongoose.Schema({
     boardTitile:{
         type:String,
         required:[true,"Board title is required"]
@@ -10,12 +10,12 @@ const boardSchema = new schema({
         type:String,
         required:[true,"Board description is required"]
     },
-    createdBy:{
-        type:mongoose.schema.Types.ObjectId,
-        ref:'User',
-        required:true
-    },
-    collaborators:[{
+    // createdBy:{
+    //     type:mongoose.schema.Types.ObjectId,
+    //     ref:'User',
+    //     required:true
+    // },
+    members:[{
         type:mongoose.schema.Types.ObjectId,
         role:{
             type:String,
@@ -42,6 +42,5 @@ boardSchema.pre('save', function (next) {
     next();
   });
 
-const Board = mongoose.model('Board',boardSchema);
+export const Board = mongoose.model('Board',boardSchema);
 
-export default Board;
