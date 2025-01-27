@@ -2,55 +2,57 @@ import { Roles } from "../constants/Roles";
 import { User } from "../models/userModel";
 import bcrypt from "bcrypt"
 
-const getUserProfileDetails = async (req,res,next)=>{
-    try{
-     const {userId} = req.params;
-     const user = await User.findById(userId)
-     
-     if(!user){
-        res.status(404).json({
-            msg:"User not found",
-            success:false
-        })
-     }
-     // all users in database
-     const allUsers = await User.find({})
+const getUsersOfSystem = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    const user = await User.findById(userId);
 
-     const filteredUsers = User.filter((user)=>!user._id.equals(userId))
-     res.status(200).json({ message:'Users in the system', users: filteredUsers, success: true})
+    if (!user) {
+      res.status(404).json({
+        msg: "User not found",
+        success: false,
+      });
     }
-    catch(error){
-        res.status(500).json({
-            msg:"Internal server error"
-        })
-    }
-}
+    // all users in database
+    const allUsers = await User.find({});
 
+    const filteredUsers = User.filter((user) => !user._id.equals(userId));
+    res
+      .status(200)
+      .json({
+        message: "Users in the system",
+        users: filteredUsers,
+        success: true,
+      });
+  } catch (error) {
+    res.status(500).json({
+      msg: "Internal server error",
+    });
+  }
+};
 
 // get user by id
-
-const getUserById = async (req,res,next)=>{
-    try{
-    const {userId} = req.params;
-    const user = User.findById(userId)
-    if(!user){
-        res.status(403).json({
-            message:"User not found",
-            success:false
-        })
+const getUserInfoById = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    const user = User.findById(userId);
+    if (!user) {
+      res.status(403).json({
+        message: "User not found",
+        success: false,
+      });
     }
     res.status(400).json({
-        message:"user details retrieved successfully",
-        success:true,
-    })
-    }
-    catch(error){
-        res.status(500).json({
-            message:"Internal server error",
-            success:false
-        })
-    }
-}
+      message: "user details retrieved successfully",
+      success: true,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Internal server error",
+      success: false,
+    });
+  }
+};
 
 // update user details
 const updateUserDetails = async (req,res,next)=>{
@@ -90,4 +92,4 @@ const updateUserDetails = async (req,res,next)=>{
 }
 }
 
-export default {getUserById,getUserProfileDetails,updateUserDetails}
+export {getUserInfoById,getUsersOfSystem,updateUserDetails}

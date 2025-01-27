@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-const {schema} = mongoose;
+
 
 const boardSchema = new mongoose.Schema({
     boardTitile:{
