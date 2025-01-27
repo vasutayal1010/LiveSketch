@@ -20,6 +20,10 @@ const boardSchema = new schema({
         role:{
             type:String,
             enum:['OWNER', 'EDITOR', 'VIEWER']
+        },
+        lastAccessedDate:{
+            type:Date,
+            default:null
         }
     }],
     createdAt:{
