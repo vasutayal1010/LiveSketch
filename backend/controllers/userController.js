@@ -1,6 +1,6 @@
 import { Roles } from "../constants/Roles";
 import { User } from "../models/userModel";
-import bcrypt from "bcrypt"
+import bcrypt from "bcrypt";
 
 const getUsersOfSystem = async (req, res, next) => {
   try {
