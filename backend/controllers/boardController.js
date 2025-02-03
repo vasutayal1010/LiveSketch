@@ -1,5 +1,5 @@
-import { User } from "../models/userModel";
-import { Board } from "../models/boardModel";
+import { User } from "../models/userModel.js";
+import { Board } from "../models/boardModel.js";
 
 const createBoard = async (req, res, next) => {
   try {

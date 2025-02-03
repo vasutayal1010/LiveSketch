@@ -1,5 +1,5 @@
-import { Roles } from "../constants/Roles";
-import { User } from "../models/userModel";
+
+import { User } from "../models/userModel.js";
 import bcrypt from "bcrypt";
 
 const getUsersOfSystem = async (req, res, next) => {

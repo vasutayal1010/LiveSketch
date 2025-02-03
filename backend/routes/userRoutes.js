@@ -3,7 +3,7 @@ import {
   getUsersOfSystem,
   getUserInfoById,
   updateUserDetails,
-} from "../controllers/userController";
+} from "../controllers/userController.js";
 
 const router = Router();
 router.route("/getUsersOfSystem/:userId").get(getUsersOfSystem);
