@@ -12,27 +12,27 @@ const Register = () => {
     email: "",
     password: "",
     confirmPassword: "",
-    role:'USER'
+    role: "USER",
   });
 
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState({
     password: false,
-    confirmPassword: false
+    confirmPassword: false,
   });
 
   const validatePassword = (password) => {
-    const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const regex =
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     return regex.test(password);
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    
-    // Clear error when user starts typing
+    setFormData((prev) => ({ ...prev, [name]: value }));
+
     if (errors[name]) {
-      setErrors(prev => {
+      setErrors((prev) => {
         const newErrors = { ...prev };
         delete newErrors[name];
         return newErrors;
@@ -41,219 +41,284 @@ const Register = () => {
   };
 
   const togglePasswordVisibility = (field) => {
-    setShowPassword(prev => ({
+    setShowPassword((prev) => ({
       ...prev,
-      [field]: !prev[field]
+      [field]: !prev[field],
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     let newErrors = {};
 
-    // Required Field Validation
-    const requiredFields = ['firstName', 'lastName', 'username', 'email', 'password', 'confirmPassword'];
-    requiredFields.forEach(field => {
+    const requiredFields = [
+      "firstName",
+      "lastName",
+      "username",
+      "email",
+      "password",
+      "confirmPassword",
+    ];
+    requiredFields.forEach((field) => {
       if (!formData[field]) {
-        newErrors[field] = `${field.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())} is required!`;
+        newErrors[field] = `${field
+          .replace(/([A-Z])/g, " $1")
+          .replace(/^./, (str) => str.toUpperCase())} is required!`;
       }
     });
 
-    // Email Validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (formData.email && !emailRegex.test(formData.email)) {
       newErrors.email = "Please enter a valid email address";
     }
 
-    // Password Strength Validation
     if (formData.password && !validatePassword(formData.password)) {
-      newErrors.password = "Password must be at least 8 characters, include a number, letter & special character!";
+      newErrors.password =
+        "Password must be at least 8 characters, include a number, letter & special character!";
     }
 
-    // Confirm Password Validation
     if (formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = "Passwords do not match!";
     }
 
     setErrors(newErrors);
 
-    // If no errors, submit form
     if (Object.keys(newErrors).length === 0) {
-      
-      try {
-      const responseData = await registerUser(formData); 
-      console.log('User Registered Successfully :',responseData);
-      navigate('/login');
-
-  
-    } catch (error) {
-      console.log(`error while registering user : ${error}`);
+       try {
+         const responseData = await registerUser(formData);
+         navigate('/login');
+       } catch (error) {
+         console.log(`error while registering user : ${error}`);
+       }
     }
-    
-  }};
+  };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-4">
-      <div className="bg-white w-full max-w-md rounded-xl shadow-2xl overflow-hidden">
-        <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-6 text-center">
-          <UserPlus className="mx-auto text-white w-16 h-16 mb-4" strokeWidth={1.5} />
-          <h2 className="text-3xl font-bold text-white">Create an Account</h2>
+    <div className="min-h-screen relative flex items-center justify-end py-8 px-4 sm:px-6 lg:px-8">
+      {/* Background Image */}
+      <div
+        className="absolute inset-0 z-0"
+        style={{
+          backgroundImage: "url('src/resources/images/Project_16-14.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      />
+
+      {/* Glass Effect Container - Darker and more defined */}
+      <div className="relative w-full max-w-md space-y-4 bg-white/60 backdrop-blur-md rounded-2xl shadow-2xl p-6 mr-8 mt-4 border border-white/20">
+        <div className="text-center">
+          <div className="inline-flex p-3 rounded-full bg-blue-600/20 mb-2">
+            <UserPlus
+              className="mx-auto text-blue-700 w-8 h-8"
+              strokeWidth={1.5}
+            />
+          </div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-1">
+            Create Account
+          </h2>
+          <p className="text-sm text-gray-700">
+            Join us today and start your journey
+          </p>
         </div>
-        
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
-          {/* Name Inputs */}
-          <div className="flex space-x-4">
-            <div className="w-1/2">
-              <div className="relative">
-                <input
-                  type="text"
-                  name="firstName"
-                  placeholder="First Name"
-                  value={formData.firstName}
-                  onChange={handleChange}
-                  className={`w-full pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 ${
-                    errors.firstName 
-                    ? 'border-red-500 focus:ring-red-300' 
-                    : 'border-gray-300 focus:ring-blue-300'
-                  }`}
-                />
-                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+
+        <form onSubmit={handleSubmit} className="mt-4 space-y-3">
+          <div className="space-y-3">
+            {/* Name Inputs */}
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <div className="relative">
+                  <input
+                    type="text"
+                    name="firstName"
+                    placeholder="First Name"
+                    value={formData.firstName}
+                    onChange={handleChange}
+                    className={`w-full pl-9 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-all duration-200 bg-white/90 ${
+                      errors.firstName
+                        ? "border-red-500 focus:ring-red-300"
+                        : "border-gray-300 focus:ring-blue-300"
+                    }`}
+                  />
+                  <User
+                    className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500"
+                    size={16}
+                  />
+                </div>
+                {errors.firstName && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.firstName}
+                  </p>
+                )}
               </div>
-              {errors.firstName && <p className="text-red-500 text-sm mt-1">{errors.firstName}</p>}
-            </div>
-            
-            <div className="w-1/2">
-              <div className="relative">
-                <input
-                  type="text"
-                  name="lastName"
-                  placeholder="Last Name"
-                  value={formData.lastName}
-                  onChange={handleChange}
-                  className={`w-full pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 ${
-                    errors.lastName 
-                    ? 'border-red-500 focus:ring-red-300' 
-                    : 'border-gray-300 focus:ring-blue-300'
-                  }`}
-                />
-                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+
+              <div>
+                <div className="relative">
+                  <input
+                    type="text"
+                    name="lastName"
+                    placeholder="Last Name"
+                    value={formData.lastName}
+                    onChange={handleChange}
+                    className={`w-full pl-9 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-all duration-200 bg-white/90 ${
+                      errors.lastName
+                        ? "border-red-500 focus:ring-red-300"
+                        : "border-gray-300 focus:ring-blue-300"
+                    }`}
+                  />
+                  <User
+                    className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500"
+                    size={16}
+                  />
+                </div>
+                {errors.lastName && (
+                  <p className="text-red-500 text-xs mt-1">{errors.lastName}</p>
+                )}
               </div>
-              {errors.lastName && <p className="text-red-500 text-sm mt-1">{errors.lastName}</p>}
             </div>
-          </div>
 
-          {/* Username Input */}
-          <div className="relative">
-            <input
-              type="text"
-              name="username"
-              placeholder="Username"
-              value={formData.username}
-              onChange={handleChange}
-              className={`w-full pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 ${
-                errors.userName 
-                ? 'border-red-500 focus:ring-red-300' 
-                : 'border-gray-300 focus:ring-blue-300'
-              }`}
-            />
-            <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
-            {errors.username && <p className="text-red-500 text-sm mt-1">{errors.username}</p>}
-          </div>
+            {/* Username Input */}
+            <div className="relative">
+              <input
+                type="text"
+                name="username"
+                placeholder="Username"
+                value={formData.username}
+                onChange={handleChange}
+                className={`w-full pl-9 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-all duration-200 bg-white/90 ${
+                  errors.username
+                    ? "border-red-500 focus:ring-red-300"
+                    : "border-gray-300 focus:ring-blue-300"
+                }`}
+              />
+              <User
+                className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500"
+                size={16}
+              />
+              {errors.username && (
+                <p className="text-red-500 text-xs mt-1">{errors.username}</p>
+              )}
+            </div>
 
-          {/* Email Input */}
-          <div className="relative">
-            <input
-              type="email"
-              name="email"
-              placeholder="Email Address"
-              value={formData.email}
-              onChange={handleChange}
-              className={`w-full pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 ${
-                errors.email 
-                ? 'border-red-500 focus:ring-red-300' 
-                : 'border-gray-300 focus:ring-blue-300'
-              }`}
-            />
-            <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
-            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
-          </div>
+            {/* Email Input */}
+            <div className="relative">
+              <input
+                type="email"
+                name="email"
+                placeholder="Email Address"
+                value={formData.email}
+                onChange={handleChange}
+                className={`w-full pl-9 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-all duration-200 bg-white/90 ${
+                  errors.email
+                    ? "border-red-500 focus:ring-red-300"
+                    : "border-gray-300 focus:ring-blue-300"
+                }`}
+              />
+              <Mail
+                className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500"
+                size={16}
+              />
+              {errors.email && (
+                <p className="text-red-500 text-xs mt-1">{errors.email}</p>
+              )}
+            </div>
 
-          {/* Password Inputs with Toggle */}
-          <div className="relative">
-            <input
-              type={showPassword.password ? "text" : "password"}
-              name="password"
-              placeholder="Password"
-              value={formData.password}
-              onChange={handleChange}
-              className={`w-full pl-10 pr-10 py-2 border rounded-md focus:outline-none focus:ring-2 ${
-                errors.password 
-                ? 'border-red-500 focus:ring-red-300' 
-                : 'border-gray-300 focus:ring-blue-300'
-              }`}
-            />
-            <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
-            <button
-              type="button"
-              onClick={() => togglePasswordVisibility('password')}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-            >
-              {showPassword.password ? <EyeOff size={18} /> : <Eye size={18} />}
-            </button>
-            {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
-          </div>
+            {/* Password Inputs */}
+            <div className="relative">
+              <input
+                type={showPassword.password ? "text" : "password"}
+                name="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleChange}
+                className={`w-full pl-9 pr-8 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-all duration-200 bg-white/90 ${
+                  errors.password
+                    ? "border-red-500 focus:ring-red-300"
+                    : "border-gray-300 focus:ring-blue-300"
+                }`}
+              />
+              <Lock
+                className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500"
+                size={16}
+              />
+              <button
+                type="button"
+                onClick={() => togglePasswordVisibility("password")}
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+              >
+                {showPassword.password ? (
+                  <EyeOff size={16} />
+                ) : (
+                  <Eye size={16} />
+                )}
+              </button>
+              {errors.password && (
+                <p className="text-red-500 text-xs mt-1">{errors.password}</p>
+              )}
+            </div>
 
-          <div className="relative">
-            <input
-              type={showPassword.confirmPassword ? "text" : "password"}
-              name="confirmPassword"
-              placeholder="Confirm Password"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              className={`w-full pl-10 pr-10 py-2 border rounded-md focus:outline-none focus:ring-2 ${
-                errors.confirmPassword 
-                ? 'border-red-500 focus:ring-red-300' 
-                : 'border-gray-300 focus:ring-blue-300'
-              }`}
-            />
-            <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
-            <button
-              type="button"
-              onClick={() => togglePasswordVisibility('confirmPassword')}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-            >
-              {showPassword.confirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-            </button>
-            {errors.confirmPassword && <p className="text-red-500 text-sm mt-1">{errors.confirmPassword}</p>}
+            <div className="relative">
+              <input
+                type={showPassword.confirmPassword ? "text" : "password"}
+                name="confirmPassword"
+                placeholder="Confirm Password"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                className={`w-full pl-9 pr-8 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-all duration-200 bg-white/90 ${
+                  errors.confirmPassword
+                    ? "border-red-500 focus:ring-red-300"
+                    : "border-gray-300 focus:ring-blue-300"
+                }`}
+              />
+              <Lock
+                className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500"
+                size={16}
+              />
+              <button
+                type="button"
+                onClick={() => togglePasswordVisibility("confirmPassword")}
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+              >
+                {showPassword.confirmPassword ? (
+                  <EyeOff size={16} />
+                ) : (
+                  <Eye size={16} />
+                )}
+              </button>
+              {errors.confirmPassword && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.confirmPassword}
+                </p>
+              )}
+            </div>
           </div>
 
           {/* Submit Button */}
-          <button
-            type="submit"
-            className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-md 
-              transition duration-300 transform hover:scale-105 hover:shadow-lg active:scale-95"
-          >
-            Register
-          </button>
+          <div>
+            <button
+              type="submit"
+              className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98]"
+            >
+              Create Account
+            </button>
+          </div>
         </form>
 
         {/* Login Link */}
-        <div className="bg-gray-100 p-4 text-center">
-          <p className="text-gray-600">
+        <div className="text-center pt-2">
+          <p className="text-sm text-gray-700">
             Already have an account?{" "}
-            <a 
-              href="/login" 
-              className="text-blue-500 font-semibold hover:underline transition duration-200"
+            <button
+              onClick={() => console.log("Navigate to login")}
+              className="font-medium text-blue-600 hover:text-blue-500 transition-colors duration-200"
             >
-              Login
-            </a>
+              Sign in
+            </button>
           </p>
         </div>
       </div>
     </div>
   );
-}
-
+};
 
 export default Register;
