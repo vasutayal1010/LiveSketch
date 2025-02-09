@@ -57,12 +57,10 @@ const LoginPage = () => {
 
     try {
       const responseData = await loginUser(reqData); 
-
       localStorage.setItem('token', responseData.token);
       localStorage.setItem('userId', responseData.userId);
       localStorage.setItem('username', responseData.username);
       localStorage.setItem('fullname', responseData.fullname);
-
       navigate('/whiteboards');
       
     } catch (error) {
