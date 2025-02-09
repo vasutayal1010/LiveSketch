@@ -35,16 +35,17 @@ const getUsersOfSystem = async (req, res, next) => {
 const getUserInfoById = async (req, res, next) => {
   try {
     const { userId } = req.params;
-    const user = User.findById(userId);
+    const user = await User.findById(userId);
     if (!user) {
       res.status(403).json({
         message: "User not found",
         success: false,
       });
     }
-    res.status(400).json({
+    res.status(200).json({
       message: "user details retrieved successfully",
       success: true,
+      user : user
     });
   } catch (error) {
     res.status(500).json({
@@ -55,41 +56,56 @@ const getUserInfoById = async (req, res, next) => {
 };
 
 // update user details
-const updateUserDetails = async (req,res,next)=>{
-    try{
-    const id = req.params;
-    const {username,email,password} = req.body
-    const user = User.findById(user)
-    if(!user){
-        res.status(403).json({
-            message:"User not found",
-            success:false
-        })
+
+const updateUserDetails = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { firstName, lastName, username } = req.body;
+
+    // Ensure at least one field is provided for update
+    if (!firstName && !lastName && !username) {
+      return res.status(400).json({
+        success: false,
+        message: "At least one field must be provided for update",
+      });
     }
-    if(username) user.username=username
-    if(email) user.email=email
-    if(password){
-         const hashedpassword = await bcrypt.hash(password,12);
-         user.password=hashedpassword;
+
+    // Find and update the user in one step
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $set: { firstName, lastName, username } },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
     }
-    const updatedUser = await user.save();
 
     res.status(200).json({
-        message:"User details updated successfully",
-        success:true,
-        user:{
-            username:updatedUser.username,
-            email:updatedUser.email
-        },
-    })
-}
-  catch(error){
+      success: true,
+      message: "User details updated successfully",
+      user: {
+        userId: updatedUser._id,
+        firstName: updatedUser.firstName,
+        lastName: updatedUser.lastName,
+        username: updatedUser.username,
+      },
+    });
+  } catch (error) {
     res.status(500).json({
-    message: 'An error occurred while updating the user',
-    success: false,
-    error: error.message,
-  })
-}
-}
+      success: false,
+      message: "An error occurred while updating the user",
+      error: error.message,
+    });
+  }
+};
+
+
+
+
+
 
 export {getUserInfoById,getUsersOfSystem,updateUserDetails}
