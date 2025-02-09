@@ -24,12 +24,36 @@ export const loginUser = async (userData) => {
 export const resetPassword = async (userId,userData) => {
     try{
         const response = await axios.patch(
-          `${API_URL}/api/v1/auth/resetpassword/:${userId}`,
+          `${API_URL}/api/v1/auth/resetpassword/${userId}`,
           userData
         );
         return response.data;
     }catch(error){
         console.error('Error in Reset Password From service.jsx',error);
+        throw error;
+    }
+}
+
+export const getUserInfoByUserId = async (userId) => {
+  try {
+    const response = await axios.get(`${API_URL}/api/v1/user/${userId}`);
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};
+
+export const updateUserDetails = async (userId, userData) => {
+    try {
+        const response = await axios.put(
+        `${API_URL}/api/v1/user/updateUserDetails/${userId}`,
+        userData
+        );
+        return response.data;
+    } catch (error) {
+        console.error("Error updating user details:", error);
         throw error;
     }
 }

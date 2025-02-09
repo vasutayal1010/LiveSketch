@@ -7,10 +7,10 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 import './index.css'
-import App from './App.jsx'
 import  Home  from '../src/pages/Home.jsx';
 import Register from '../src/pages/Register.jsx';
 import LoginPage from './pages/Login.jsx';
+import UserProfile from './pages/UserProfile.jsx';
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -18,6 +18,7 @@ const routes = createBrowserRouter(
       <Route path="" element={<Home />} />
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/user-profile" element={<UserProfile />} />
     </Route>
   )
 );
