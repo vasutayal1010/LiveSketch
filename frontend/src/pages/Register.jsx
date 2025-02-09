@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Eye, EyeOff, Lock, Mail, User, UserPlus } from "lucide-react";
 import { registerUser } from "../services/apiService";
@@ -322,3 +323,4 @@ const Register = () => {
 };
 
 export default Register;
+
