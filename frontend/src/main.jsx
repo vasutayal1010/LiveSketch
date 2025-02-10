@@ -13,6 +13,8 @@ import LoginPage from './pages/Login.jsx';
 import UserProfile from './pages/UserProfile.jsx'
 import ProtectedRoute from './middleware/ProtectRoute.jsx';
 import { AuthProvider } from './middleware/AuthContext.jsx';
+import {Provider} from 'react-redux'
+import { store } from './store/store.jsx';
 
 
 
@@ -33,8 +35,10 @@ const routes = createBrowserRouter(
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
+    <Provider store={store}>
     <AuthProvider>
     <RouterProvider router={routes}/>
     </AuthProvider>
+    </Provider>
   </StrictMode>
 );
