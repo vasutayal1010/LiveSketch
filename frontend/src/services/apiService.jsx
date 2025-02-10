@@ -10,7 +10,6 @@ export const registerUser = async (userData) => {
         throw error;
     }
 }
-
 export const loginUser = async (userData) => {
     try{
         const response = await axios.post(`${API_URL}/api/v1/auth/signin`, userData);

@@ -10,7 +10,7 @@ import './index.css'
 import  Home  from '../src/pages/Home.jsx';
 import Register from '../src/pages/Register.jsx';
 import LoginPage from './pages/Login.jsx';
-import UserProfile from './pages/UserProfile.jsx';
+import UserProfile from './pages/UserProfile.jsx'
 import ProtectedRoute from './middleware/ProtectRoute.jsx';
 import { AuthProvider } from './middleware/AuthContext.jsx';
 
