@@ -11,6 +11,8 @@ import  Home  from '../src/pages/Home.jsx';
 import Register from '../src/pages/Register.jsx';
 import LoginPage from './pages/Login.jsx';
 import UserProfile from './pages/UserProfile.jsx';
+import ProtectedRoute from './middleware/ProtectRoute.jsx';
+import { AuthProvider } from './middleware/AuthContext.jsx';
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -18,7 +20,10 @@ const routes = createBrowserRouter(
       <Route path="" element={<Home />} />
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/user-profile" element={<UserProfile />} />
+      <Route element={<ProtectedRoute />}>
+        <Route path="/user-profile" element={<UserProfile />} />
+      </Route>
+      {/* <Route path="/user-profile" element={<UserProfile />} /> */}
     </Route>
   )
 );
@@ -26,6 +31,8 @@ const routes = createBrowserRouter(
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
+    <AuthProvider>
     <RouterProvider router={routes}/>
+    </AuthProvider>
   </StrictMode>
 );
