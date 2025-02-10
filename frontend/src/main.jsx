@@ -15,6 +15,7 @@ import ProtectedRoute from './middleware/ProtectRoute.jsx';
 import { AuthProvider } from './middleware/AuthContext.jsx';
 import {Provider} from 'react-redux'
 import { store } from './store/store.jsx';
+import  LoginMiddleware  from './pages/LoginMiddleware.jsx';
 
 
 
@@ -24,6 +25,7 @@ const routes = createBrowserRouter(
       <Route path="" element={<Home />} />
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/protect" element={<LoginMiddleware />} />
       <Route element={<ProtectedRoute />}>
         <Route path="/user-profile" element={<UserProfile />} />
       </Route>
