@@ -70,9 +70,9 @@ const LoginPage = () => {
       {/* Animated background elements */}
 
       <div className="absolute inset-0">
-        <div className="absolute w-96 h-96 bg-pink-500/30 rounded-full blur-3xl animate-pulse -top-20 -left-20"></div>
-        <div className="absolute w-96 h-96 bg-blue-500/30 rounded-full blur-3xl animate-pulse top-1/2 -right-20"></div>
-        <div className="absolute w-96 h-96 bg-purple-500/30 rounded-full blur-3xl animate-pulse -bottom-20 left-1/2 transform -translate-x-1/2"></div>
+        <div className="absolute w-96 h-96 bg-pink-600/20 rounded-full blur-3xl animate-pulse -top-20 -left-20"></div>
+        <div className="absolute w-96 h-96 bg-blue-600/20 rounded-full blur-3xl animate-pulse top-1/2 -right-20"></div>
+        <div className="absolute w-96 h-96 bg-purple-600/20 rounded-full blur-3xl animate-pulse -bottom-20 left-1/2 transform -translate-x-1/2"></div>
       </div>
       <header className="bg-gradient-to-r from-indigo-600 to-purple-600 shadow-lg fixed w-full z-50">
         <div className="container mx-auto flex items-center justify-between py-4 px-6">

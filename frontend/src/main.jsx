@@ -14,6 +14,8 @@ import UserProfile from './pages/UserProfile.jsx'
 import ProtectedRoute from './middleware/ProtectRoute.jsx';
 import { AuthProvider } from './middleware/AuthContext.jsx';
 
+
+
 const routes = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/">
