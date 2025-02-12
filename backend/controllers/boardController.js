@@ -46,7 +46,7 @@ const createBoardWithMembers = async (req, res, next) => {
     // const user = await User.findById(req.userId);
     let membersObj = [];
 
-    for (let i = 0; i < members.size(); i++) {
+    for (let i = 0; i < members.length; i++) {
       membersObj.push({
         memberId: members[i].memberId,
         memberRole: members[i].role,
@@ -289,38 +289,44 @@ const removeUserFromBoard = async (req, res, next) => {
 
 // to retrieve all the board user was a collborator , either admin or viewer
 const getBoardsForUser = async (req, res, next) => {
-  const userId = req.userId;
   try {
-    const user = await User.findById(userId);
+    const { userId } = req.params;
+
+    console.log(`${userId}`);
+
+    const [user] = await Promise.all([User.findById(userId)]);
+
     if (!user) {
-      res.status(403).json({
-        message: "Invalid user id",
+      return res.status(404).json({
+        message: "Passed userId is invalid",
         success: false,
       });
     }
-    const boardsOfCurrentUser = await Board.find({
-      "members.memberId": userId,
+
+    const boards = await Board.find({ "members.memberId": userId });
+    console.log(boards);
+
+    const respBoard = [];
+    boards.forEach((board) => {
+      const member = board.members.find((m) => m.memberId.equals(userId));
+      if (member) {
+        respBoard.push({
+          ...board._doc,
+          role: member.memberRole,
+          lastAccessedAt: member.lastAccessedAt,
+        });
+      }
     });
-    const allBoards = boardsOfCurrentUser.map((board) => {
-      const member = board.members.find((m) => m.memberId === userId);
-      return {
-        ...board._doc,
-        role: member ? member.memberRole : "N/A",
-        lastAccessedDate: member ? member.lastAccessedDate : null,
-      };
-    });
+
     res.status(200).json({
-      message: "Boards for user retrieved successfully",
-      boards: allBoards,
-      boardCount: allBoards.length,
+      message: "boards for user retrieved successfully",
+      respBoard,
+      boardCnt: respBoard.length,
       success: true,
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({
-      message: "Internal server error",
-      success: false,
-    });
+    res.status(500).json({ message: "Internal server error", success: false });
   }
 };
 
