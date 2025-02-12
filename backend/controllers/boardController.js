@@ -1,5 +1,6 @@
 import { User } from "../models/userModel.js";
 import { Board } from "../models/boardModel.js";
+import mongoose from "mongoose";
 
 const createBoard = async (req, res, next) => {
   try {
