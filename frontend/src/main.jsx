@@ -22,6 +22,7 @@ import BoardItem from './components/BoardItem.jsx';
 
 
 
+
 const routes = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/">
@@ -31,11 +32,9 @@ const routes = createBrowserRouter(
       <Route path="/protect" element={<LoginMiddleware />} />
       <Route path="/user-profile" element={<UserProfile />} />
       <Route path="/whiteboards" element={<WhiteBoardsPage />} />
-      <Route path="/newBoard" element={<CreateNewBoard/>} />
-
-
-      {/* <Route element={<ProtectedRoute />}> */}
-      {/*</Route>*/}
+      <Route path="/newBoard" element={<CreateNewBoard/>}/>
+      {/* <Route element={<ProtectedRoute />}>
+      </Route> */}
       {/* <Route path="/user-profile" element={<UserProfile />} /> */}
     </Route>
   )
