@@ -16,7 +16,7 @@ const getUsersOfSystem = async (req, res, next) => {
     // all users in database
     const allUsers = await User.find({});
 
-    const filteredUsers = User.filter((user) => !user._id.equals(userId));
+    const filteredUsers = allUsers.filter((user) => !user._id.equals(userId));
     res
       .status(200)
       .json({

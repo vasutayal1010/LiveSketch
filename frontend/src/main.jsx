@@ -32,8 +32,8 @@ const routes = createBrowserRouter(
       <Route path="/user-profile" element={<UserProfile />} />
       <Route path="/whiteboards" element={<WhiteBoardsPage />} />
       <Route path="/newBoard" element={<CreateNewBoard/>}/>
-      <Route element={<ProtectedRoute />}>
-      </Route>
+      {/* <Route element={<ProtectedRoute />}>
+      </Route> */}
       {/* <Route path="/user-profile" element={<UserProfile />} /> */}
     </Route>
   )

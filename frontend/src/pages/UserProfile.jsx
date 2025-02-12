@@ -148,7 +148,7 @@ const ProfileDashboard = () => {
               <h2 className="font-bold text-gray-800 text-xl bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
                 {updatedUser.firstName} {updatedUser.lastName}
               </h2>
-              <p className="text-sm text-blue-600 font-medium mt-1">@{user.username}</p>
+              <p className="text-sm text-blue-600 font-medium mt-1">{user.username}</p>
             </div>
           </div>
         </div>
