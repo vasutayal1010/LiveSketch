@@ -56,3 +56,50 @@ export const updateUserDetails = async (userId, userData) => {
         throw error;
     }
 }
+
+export const fetchBoardsForUser = async (userId) => {
+  try {
+    const response = await axios.get(
+      `${API_URL}/board/getBoardsForUser/${userId}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};
+
+export const fetchAllUsersForSystem = async (userId) => {
+  try {
+    const response = await axios.get(
+      `${API_URL}/user/getUsersOfSystem/${userId}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};
+
+export const createBoardWithMembers = async (reqbody) => {
+  try {
+    const response = await axios.post(
+      `${API_URL}/board/createBoardWithMembers`,
+      reqbody
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};
+
+export const deleteBoardById = async (boardId) => {
+  try {
+    const response = await axios.delete(`${API_URL}/board/${boardId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};

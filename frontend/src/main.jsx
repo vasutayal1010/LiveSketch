@@ -20,6 +20,7 @@ import WhiteBoardsPage from './pages/WhiteBoardsPage.jsx';
 
 
 
+
 const routes = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/">
@@ -29,8 +30,7 @@ const routes = createBrowserRouter(
       <Route path="/protect" element={<LoginMiddleware />} />
       <Route path="/user-profile" element={<UserProfile />} />
       <Route path="/whiteboards" element={<WhiteBoardsPage />} />
-      <Route element={<ProtectedRoute />}>
-      </Route>
+      <Route element={<ProtectedRoute />}></Route>
       {/* <Route path="/user-profile" element={<UserProfile />} /> */}
     </Route>
   )
