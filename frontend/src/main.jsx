@@ -26,8 +26,8 @@ const routes = createBrowserRouter(
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/protect" element={<LoginMiddleware />} />
+      <Route path="/user-profile" element={<UserProfile />} />
       <Route element={<ProtectedRoute />}>
-        <Route path="/user-profile" element={<UserProfile />} />
       </Route>
       {/* <Route path="/user-profile" element={<UserProfile />} /> */}
     </Route>

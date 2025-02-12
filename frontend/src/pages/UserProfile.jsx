@@ -5,14 +5,15 @@ import {
   Lock,
   LogOut,
   Clock,
-  Settings,
   ChevronRight,
   Eye,
   EyeOff,
+  Camera,
+  Shield,
+  AlertCircle
 } from "lucide-react";
 import { resetPassword, getUserInfoByUserId, updateUserDetails } from "../services/apiService";
 import { useNavigate } from "react-router-dom";
-
 const ProfileDashboard = () => {
   const navigate = useNavigate();
   const userId = localStorage.getItem("userId");
@@ -124,349 +125,305 @@ const ProfileDashboard = () => {
     { id: "history", label: "Login History", icon: Clock },
   ];
 
-  return (
-    <div className="flex min-h-screen bg-gray-50">
-      {/* Sidebar */}
-      <div className="w-64 bg-white border-r border-gray-200 min-h-screen">
-        <div className="p-6 border-b border-gray-200">
-          <div className="flex items-center space-x-4">
-            <img
-              src={user.avatar}
-              alt="Profile"
-              className="w-12 h-12 rounded-full"
-            />
-            <div>
-              <h2 className="font-semibold text-gray-800">
+    return (
+      <div className="min-h-screen bg-[conic-gradient(at_top_right,_var(--tw-gradient-stops))] from-blue-100 via-blue-300 to-blue-500">
+      {/* Enhanced Sidebar */}
+      <div className="w-72 fixed h-screen bg-white/80 backdrop-blur-xl shadow-2xl border-r border-gray-100/50 transition-all duration-500 hover:shadow-blue-200/20">
+        <div className="p-8 border-b border-gray-100/50">
+          <div className="flex flex-col items-center space-y-6">
+            <div className="relative group cursor-pointer">
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full opacity-75 group-hover:opacity-100 blur transition duration-500"></div>
+              <img
+                src={user.avatar}
+                alt="Profile"
+                className="relative w-24 h-24 rounded-full object-cover ring-4 ring-white group-hover:scale-105 transition-all duration-500"
+              />
+              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+                <div className="w-24 h-24 rounded-full bg-black/40 absolute flex items-center justify-center backdrop-blur-sm">
+                  <Camera className="text-white w-6 h-6 animate-pulse" />
+                </div>
+              </div>
+            </div>
+            <div className="text-center">
+              <h2 className="font-bold text-gray-800 text-xl bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
                 {updatedUser.firstName} {updatedUser.lastName}
               </h2>
-              {/* <p className="text-sm text-gray-500">{user.email}</p> */}
+              <p className="text-sm text-blue-600 font-medium mt-1">@{user.username}</p>
             </div>
           </div>
         </div>
 
-        <nav className="p-4">
-          <ul className="space-y-2">
+        <nav className="p-6">
+          <ul className="space-y-3">
             {menuItems.map((item) => {
               const Icon = item.icon;
               return (
                 <li key={item.id}>
                   <button
                     onClick={() => setActiveSection(item.id)}
-                    className={`w-full flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-colors ${
-                      activeSection === item.id
-                        ? "bg-blue-50 text-blue-600"
-                        : "text-gray-600 hover:bg-gray-50"
-                    }`}
+                    className={`w-full flex items-center space-x-3 px-6 py-4 rounded-2xl transition-all duration-500 group 
+                      ${activeSection === item.id
+                        ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/20 scale-105"
+                        : "text-gray-600 hover:bg-blue-50 hover:text-blue-600"
+                      }`}
                   >
-                    <Icon size={18} />
-                    <span>{item.label}</span>
-                    {activeSection === item.id && (
-                      <ChevronRight className="ml-auto" size={16} />
-                    )}
+                    <Icon 
+                      size={20} 
+                      className={`transition-all duration-500 ${
+                        activeSection === item.id ? "animate-pulse" : "group-hover:scale-110"
+                      }`} 
+                    />
+                    <span className="font-medium">{item.label}</span>
+                    <ChevronRight 
+                      className={`ml-auto transition-all duration-500 ${
+                        activeSection === item.id ? "rotate-90 animate-pulse" : "group-hover:translate-x-1"
+                      }`} 
+                      size={18} 
+                    />
                   </button>
                 </li>
               );
             })}
           </ul>
 
-          <div className="mt-8 border-t border-gray-200 pt-4">
+          <div className="mt-8 border-t border-gray-100/50 pt-6">
             <button
               onClick={handleLogout}
-              className="w-full flex items-center space-x-3 px-4 py-2.5 rounded-lg text-red-600 hover:bg-red-50 transition-colors"
+              className="w-full flex items-center space-x-3 px-6 py-4 rounded-2xl text-red-600 hover:bg-red-50 transition-all duration-500 group"
             >
-              <LogOut size={18} />
-              <span>Logout</span>
+              <LogOut size={20} className="transition-transform duration-500 group-hover:-translate-x-1" />
+              <span className="font-medium">Logout</span>
             </button>
           </div>
         </nav>
       </div>
 
-      {/* Main Content */}
-      <div className="flex-1 p-8">
-        <div className="max-w-3xl mx-auto">
+      {/* Enhanced Main Content */}
+      <div className="ml-72 p-8">
+        <div className="max-w-4xl mx-auto">
           {activeSection === "profile" && (
-            <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-2xl font-semibold mb-6">Profile Details</h2>
-              <div className="space-y-4">
-                {/* Profile Picture and Basic Details */}
-                <div className="flex items-center">
-                  <img
-                    src={user.avatar}
-                    alt="Profile"
-                    className="w-24 h-24 rounded-full"
-                  />
-                  <div className="ml-6">
-                    <h3 className="text-xl font-medium">
-                      {user.firstName || "Login Please"} {user.lastName}
-                    </h3>
-                    <p className="text-gray-500">@{user.username}</p>
-                  </div>
-                </div>
-
-                {/* Additional Profile Information */}
-                <div className="grid grid-cols-2 gap-6 mt-8">
-                  <div>
-                    <label className="text-sm font-medium text-gray-600">
-                      First Name
-                    </label>
-                    <p className="mt-1 text-gray-900">{user.firstName}</p>
-                  </div>
-                  <div>
-                    <label className="text-sm font-medium text-gray-600">
-                      Last Name
-                    </label>
-                    <p className="mt-1 text-gray-900">{user.lastName}</p>
-                  </div>
-                  <div>
-                    <label className="text-sm font-medium text-gray-600">
-                      Username
-                    </label>
-                    <p className="mt-1 text-gray-900">{user.username}</p>
-                  </div>
-                  <div>
-                    <label className="text-sm font-medium text-gray-600">
-                      Email
-                    </label>
-                    <p className="mt-1 text-gray-900">{user.email}</p>
-                  </div>
-                  <div>
-                    <label className="text-sm font-medium text-gray-600">
-                      Role
-                    </label>
-                    <p className="mt-1 text-gray-900 capitalize">{user.role}</p>
-                  </div>
-                  <div>
-                    <label className="text-sm font-medium text-gray-600">
-                      Account Created At
-                    </label>
-                    <p className="mt-1 text-gray-900">
-                      {new Date(user.createdAt).toLocaleDateString()}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {activeSection === "update" && (
-            <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-2xl font-semibold mb-6">Update Profile</h2>
-              <form onSubmit={handleUpdate} className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">
-                      First Name
-                    </label>
-                    <input
-                      type="text"
-                      name='firstName'
-                      onChange={handleChange_update}
-                      className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-blue-500"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">
-                      Last Name
-                    </label>
-                    <input
-                      type="text"
-                      name='lastName'
-                      onChange={handleChange_update}
-                      className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-blue-500"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    Username
-                  </label>
-                  <input
-                    type="text"
-                    name='username'
-                    onChange={handleChange_update}
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-blue-500"
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
-                >
-                  Update Profile
-                </button>
-              </form>
-            </div>
-          )}
-
-          {activeSection === "reset" && (
-            <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-2xl font-semibold mb-6">Reset Password</h2>
-              <form onSubmit={handlePasswordReset} className="space-y-4">
-                {/* Current Password */}
-                <div className="relative">
-                  <label className="block text-sm font-medium text-gray-700">
-                    Current Password
-                  </label>
-                  <div className="relative">
-                    <input
-                      type={showPassword.current ? "text" : "password"}
-                      name="currentPassword"
-                      value={formData.currentPassword}
-                      onChange={handleChange}
-                      className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 pr-10 focus:border-blue-500 focus:ring-blue-500"
-                      required
-                    />
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setShowPassword((prev) => ({
-                          ...prev,
-                          current: !prev.current,
-                        }))
-                      }
-                      className="absolute right-2 top-1/2 -translate-y-1/2"
-                    >
-                      {showPassword.current ? (
-                        <EyeOff size={16} />
-                      ) : (
-                        <Eye size={16} />
-                      )}
-                    </button>
-                  </div>
-                </div>
-
-                {/* New Password */}
-                <div className="relative">
-                  <label className="block text-sm font-medium text-gray-700">
-                    New Password
-                  </label>
-                  <div className="relative">
-                    <input
-                      type={showPassword.new ? "text" : "password"}
-                      name="newPassword"
-                      value={formData.newPassword}
-                      onChange={handleChange}
-                      className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 pr-10 focus:border-blue-500 focus:ring-blue-500"
-                      required
-                    />
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setShowPassword((prev) => ({
-                          ...prev,
-                          new: !prev.new,
-                        }))
-                      }
-                      className="absolute right-2 top-1/2 -translate-y-1/2"
-                    >
-                      {showPassword.new ? (
-                        <EyeOff size={16} />
-                      ) : (
-                        <Eye size={16} />
-                      )}
-                    </button>
-                  </div>
-                </div>
-
-                {/* Confirm New Password */}
-                <div className="relative">
-                  <label className="block text-sm font-medium text-gray-700">
-                    Confirm New Password
-                  </label>
-                  <div className="relative">
-                    <input
-                      type={showPassword.confirm ? "text" : "password"}
-                      name="confirmPassword"
-                      value={formData.confirmPassword}
-                      onChange={handleChange}
-                      className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 pr-10 focus:border-blue-500 focus:ring-blue-500"
-                      required
-                    />
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setShowPassword((prev) => ({
-                          ...prev,
-                          confirm: !prev.confirm,
-                        }))
-                      }
-                      className="absolute right-2 top-1/2 -translate-y-1/2"
-                    >
-                      {showPassword.confirm ? (
-                        <EyeOff size={16} />
-                      ) : (
-                        <Eye size={16} />
-                      )}
-                    </button>
-                  </div>
-                </div>
-
-                {/* Submit Button */}
-                <button
-                  type="submit"
-                  className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
-                >
-                  Reset Password
-                </button>
-              </form>
-            </div>
-          )}
-
-          {activeSection === "history" && (
-            <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-2xl font-semibold mb-6">Login History</h2>
-              <div className="space-y-4">
-                {loginHistory.map((log, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between p-4 border rounded-lg"
-                  >
-                    <div className="flex items-center space-x-4">
-                      <Clock className="text-gray-400" size={20} />
+            <div className="relative">
+              <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl blur opacity-20 group-hover:opacity-30 transition duration-500"></div>
+              <div className="relative bg-white rounded-2xl shadow-xl p-8 transition-all duration-500 hover:shadow-2xl hover:scale-[1.01]">
+                <h2 className="text-3xl font-bold mb-8 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                  Profile Details
+                </h2>
+                <div className="space-y-8">
+                  <div className="relative group">
+                    <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl opacity-50 blur transition duration-500"></div>
+                    <div className="relative flex items-center space-x-8 bg-white p-8 rounded-xl">
+                      <div className="relative group/img">
+                        <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full opacity-75 group-hover/img:opacity-100 blur transition duration-500"></div>
+                        <img
+                          src={user.avatar}
+                          alt="Profile"
+                          className="relative w-32 h-32 rounded-full object-cover ring-4 ring-white transition-all duration-500 group-hover/img:scale-105"
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity">
+                          <div className="w-32 h-32 rounded-full bg-black/40 absolute flex items-center justify-center backdrop-blur-sm">
+                            <Camera className="text-white w-8 h-8 animate-pulse" />
+                          </div>
+                        </div>
+                      </div>
                       <div>
-                        <p className="font-medium">{log.date}</p>
-                        <p className="text-sm text-gray-500">{log.time}</p>
+                        <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                          {user.firstName || "Login Please"} {user.lastName}
+                        </h3>
+                        <p className="text-blue-600 font-medium mt-1">@{user.username}</p>
+                        <div className="flex items-center mt-3 text-gray-600">
+                          <Shield className="w-4 h-4 mr-2" />
+                          <span className="capitalize">{user.role}</span>
+                        </div>
                       </div>
                     </div>
-                    <div className="text-sm text-gray-500">{log.device}</div>
                   </div>
-                ))}
+
+                  <div className="grid grid-cols-2 gap-6">
+                    {[
+                      { label: "First Name", value: user.firstName },
+                      { label: "Last Name", value: user.lastName },
+                      { label: "Username", value: user.username },
+                      { label: "Email", value: user.email },
+                      { label: "Role", value: user.role },
+                      { 
+                        label: "Account Created", 
+                        value: new Date(user.createdAt).toLocaleDateString()
+                      }
+                    ].map((item, index) => (
+                      <div 
+                        key={index}
+                        className="group relative"
+                      >
+                        <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl opacity-0 group-hover:opacity-50 blur transition duration-500"></div>
+                        <div className="relative p-6 rounded-xl bg-white transition-all duration-500 group-hover:scale-[1.02]">
+                          <label className="text-sm font-medium text-gray-500">
+                            {item.label}
+                          </label>
+                          <p className="mt-2 text-gray-900 font-medium capitalize">
+                            {item.value}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
           )}
-
-          {/* {activeSection === "settings" && (
-            <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-2xl font-semibold mb-6">Settings</h2>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between py-3">
-                  <div>
-                    <h3 className="font-medium">Email Notifications</h3>
-                    <p className="text-sm text-gray-500">
-                      Receive email about account activity
-                    </p>
+  
+            {activeSection === "update" && (
+              <div className="bg-white rounded-2xl shadow-lg p-8 transform transition-all duration-500 hover:shadow-xl">
+                <h2 className="text-2xl font-bold mb-8 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                  Update Profile
+                </h2>
+                <form onSubmit={handleUpdate} className="space-y-6">
+                  <div className="grid grid-cols-2 gap-6">
+                    {[
+                      { label: "First Name", name: "firstName", type: "text" },
+                      { label: "Last Name", name: "lastName", type: "text" }
+                    ].map((field) => (
+                      <div key={field.name} className="group">
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          {field.label}
+                        </label>
+                        <input
+                          type={field.type}
+                          name={field.name}
+                          onChange={handleChange_update}
+                          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 bg-gray-50 group-hover:bg-white"
+                          placeholder={field.label}
+                        />
+                      </div>
+                    ))}
                   </div>
-                  <button className="w-11 h-6 bg-blue-600 rounded-full relative">
-                    <span className="absolute right-1 top-1 w-4 h-4 bg-white rounded-full transition-transform" />
+                  
+                  <div className="group">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Username
+                    </label>
+                    <input
+                      type="text"
+                      name="username"
+                      onChange={handleChange_update}
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 bg-gray-50 group-hover:bg-white"
+                      placeholder="Username"
+                    />
+                  </div>
+  
+                  <button
+                    type="submit"
+                    className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white py-3 px-6 rounded-xl font-medium transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg"
+                  >
+                    Update Profile
                   </button>
+                </form>
+              </div>
+            )}
+  
+            {activeSection === "reset" && (
+              <div className="bg-white rounded-2xl shadow-lg p-8 transform transition-all duration-500 hover:shadow-xl">
+                <h2 className="text-2xl font-bold mb-8 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                  Reset Password
+                </h2>
+                
+                <div className="mb-6 p-4 bg-blue-50 rounded-xl flex items-start space-x-3">
+                  <AlertCircle className="w-5 h-5 text-blue-600 mt-0.5" />
+                  <p className="text-sm text-blue-600">
+                    Make sure your new password is at least 8 characters long and includes a mix of letters, numbers, and symbols.
+                  </p>
                 </div>
-                <div className="flex items-center justify-between py-3 border-t">
-                  <div>
-                    <h3 className="font-medium">Two-Factor Authentication</h3>
-                    <p className="text-sm text-gray-500">
-                      Add an extra layer of security
-                    </p>
-                  </div>
-                  <button className="w-11 h-6 bg-gray-200 rounded-full relative">
-                    <span className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform" />
+  
+                <form onSubmit={handlePasswordReset} className="space-y-6">
+                  {[
+                    { 
+                      label: "Current Password",
+                      name: "currentPassword",
+                      show: showPassword.current,
+                      toggle: () => setShowPassword(prev => ({ ...prev, current: !prev.current }))
+                    },
+                    {
+                      label: "New Password",
+                      name: "newPassword",
+                      show: showPassword.new,
+                      toggle: () => setShowPassword(prev => ({ ...prev, new: !prev.new }))
+                    },
+                    {
+                      label: "Confirm New Password",
+                      name: "confirmPassword",
+                      show: showPassword.confirm,
+                      toggle: () => setShowPassword(prev => ({ ...prev, confirm: !prev.confirm }))
+                    }
+                  ].map((field) => (
+                    <div key={field.name} className="group">
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        {field.label}
+                      </label>
+                      <div className="relative">
+                        <input
+                          type={field.show ? "text" : "password"}
+                          name={field.name}
+                          value={formData[field.name]}
+                          onChange={handleChange}
+                          className="w-full px-4 py-3 pr-12 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 bg-gray-50 group-hover:bg-white"
+                          required
+                        />
+                        <button
+                          type="button"
+                          onClick={field.toggle}
+                          className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                        >
+                          {field.show ? (
+                            <EyeOff className="w-5 h-5" />
+                          ) : (
+                            <Eye className="w-5 h-5" />
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+  
+                  <button
+                    type="submit"
+                    className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white py-3 px-6 rounded-xl font-medium transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg"
+                  >
+                    Reset Password
                   </button>
+                </form>
+              </div>
+            )}
+  
+            {activeSection === "history" && (
+              <div className="bg-white rounded-2xl shadow-lg p-8 transform transition-all duration-500 hover:shadow-xl">
+                <h2 className="text-2xl font-bold mb-8 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                  Login History
+                </h2>
+                <div className="space-y-4">
+                  {loginHistory.map((log, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center justify-between p-5 rounded-xl border border-gray-100 hover:border-blue-100 hover:bg-blue-50 transition-all duration-300 group"
+                    >
+                      <div className="flex items-center space-x-4">
+                        <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center group-hover:bg-blue-200 transition-colors">
+                          <Clock className="text-blue-600 w-5 h-5" />
+                        </div>
+                        <div>
+                          <p className="font-medium text-gray-900">{log.date}</p>
+                          <p className="text-sm text-gray-500">{log.time}</p>
+                        </div>
+                      </div>
+                      <div className="px-4 py-2 rounded-lg bg-gray-100 text-gray-600 text-sm font-medium group-hover:bg-blue-100 group-hover:text-blue-600 transition-colors">
+                        {log.device}
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
-            </div>
-          )} */}
+            )}
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
 };
 
 export default ProfileDashboard;

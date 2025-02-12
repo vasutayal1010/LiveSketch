@@ -1,7 +1,7 @@
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Eye, EyeOff, Lock, Mail, User, UserPlus } from "lucide-react";
 import { registerUser } from "../services/apiService";
-import { useNavigate,Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const TypewriterText = ({ text, delay = 50 }) => {
   const [displayText, setDisplayText] = useState('');
@@ -119,7 +119,7 @@ const Register = () => {
     <div className="min-h-screen flex">
       {/* Left Side - Animated Content */}
       <div className="hidden lg:flex lg:w-9/10 relative bg-gradient-to-br from-blue-600 via-indigo-700 to-purple-800">
-      <div className="absolute inset-0">
+        <div className="absolute inset-0">
           <div className="absolute inset-0 bg-[linear-gradient(40deg,rgba(255,255,255,0.1)_0%,rgba(255,255,255,0.07)_100%)] animate-gradient"></div>
           <div className="absolute top-0 left-0 w-full h-full animate-pulse opacity-30">
             <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-white/10 rounded-full filter blur-xl"></div>
@@ -127,28 +127,28 @@ const Register = () => {
           </div>
         </div>
         <header className="bg-gradient-to-r from-indigo-600 to-purple-600 shadow-lg fixed w-full z-50">
-        <div className="container mx-auto flex items-center justify-between py-4 px-6">
-          <Link to="/" className="text-white text-2xl font-bold flex items-center space-x-2">
-            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
-                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-            </svg>
-            <span>Realtime Whiteboard</span>
-          </Link>
-          <div className="space-x-6">
-            <Link to="/" className="text-white hover:text-purple-200 transition duration-300">
-              Home
+          <div className="container mx-auto flex items-center justify-between py-4 px-6">
+            <Link to="/" className="text-white text-2xl font-bold flex items-center space-x-2">
+              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                  d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+              </svg>
+              <span>Realtime Whiteboard</span>
             </Link>
-            <Link to="/login" 
-                                className="relative inline-flex items-center justify-center px-6 py-2 overflow-hidden font-medium transition-all bg-white rounded-xl hover:bg-white group">
-                            <span className="w-48 h-48 rounded rotate-[-40deg] bg-purple-900 absolute bottom-0 left-0 -translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
-                            <span className="relative w-full text-left text-purple-600 transition-colors duration-300 ease-in-out group-hover:text-white">
-                              Login
-                            </span>
-                          </Link>
+            <div className="space-x-6">
+              <Link to="/" className="text-white hover:text-purple-200 transition duration-300">
+                Home
+              </Link>
+              <Link to="/login"
+                className="relative inline-flex items-center justify-center px-6 py-2 overflow-hidden font-medium transition-all bg-white rounded-xl hover:bg-white group">
+                <span className="w-48 h-48 rounded rotate-[-40deg] bg-purple-900 absolute bottom-0 left-0 -translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
+                <span className="relative w-full text-left text-purple-600 transition-colors duration-300 ease-in-out group-hover:text-white">
+                  Login
+                </span>
+              </Link>
+            </div>
           </div>
-        </div>
-      </header>
+        </header>
         <div className="relative w-full flex flex-col justify-center px-12 space-y-8">
           <div className={`transform transition-all duration-1000 ${startAnimation ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
             <h1 className="text-4xl font-bold text-white mb-4">
@@ -158,21 +158,20 @@ const Register = () => {
               {startAnimation && <TypewriterText text="Start your journey with us today and discover endless possibilities." delay={30} />}
             </p>
           </div>
-          
+
           <div className="space-y-6">
             {/* Feature items with staggered animations */}
             {startAnimation && ['Create your personalized profile', 'Secure and encrypted data protection', 'Stay updated with email notifications'].map((text, index) => (
-              <div 
+              <div
                 key={index}
-                className={`transform transition-all duration-700 delay-${(index + 2) * 300} ${
-                  startAnimation ? 'translate-x-0 opacity-100' : '-translate-x-10 opacity-0'
-                }`}
+                className={`transform transition-all duration-700 delay-${(index + 2) * 300} ${startAnimation ? 'translate-x-0 opacity-100' : '-translate-x-10 opacity-0'
+                  }`}
               >
                 <div className="flex items-center space-x-4 text-white/90 hover:scale-105 transition-transform duration-300">
                   <div className="p-2 bg-white/10 rounded-lg backdrop-blur-sm">
-                    {index === 0 ? <User className="w-6 h-6" /> : 
-                     index === 1 ? <Lock className="w-6 h-6" /> : 
-                     <Mail className="w-6 h-6" />}
+                    {index === 0 ? <User className="w-6 h-6" /> :
+                      index === 1 ? <Lock className="w-6 h-6" /> :
+                        <Mail className="w-6 h-6" />}
                   </div>
                   <p className="relative overflow-hidden">
                     <TypewriterText text={text} delay={40} />
@@ -214,11 +213,10 @@ const Register = () => {
                       placeholder="First Name"
                       value={formData.firstName}
                       onChange={handleChange}
-                      className={`w-full pl-9 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-all duration-200 bg-white ${
-                        errors.firstName
+                      className={`w-full pl-9 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-all duration-200 bg-white ${errors.firstName
                           ? "border-red-500 focus:ring-red-300"
                           : "border-gray-300 focus:ring-blue-300"
-                      }`}
+                        }`}
                     />
                     <User className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500" size={16} />
                   </div>
@@ -235,11 +233,10 @@ const Register = () => {
                       placeholder="Last Name"
                       value={formData.lastName}
                       onChange={handleChange}
-                      className={`w-full pl-9 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-all duration-200 bg-white ${
-                        errors.lastName
+                      className={`w-full pl-9 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-all duration-200 bg-white ${errors.lastName
                           ? "border-red-500 focus:ring-red-300"
                           : "border-gray-300 focus:ring-blue-300"
-                      }`}
+                        }`}
                     />
                     <User className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500" size={16} />
                   </div>
@@ -257,11 +254,10 @@ const Register = () => {
                   placeholder="Username"
                   value={formData.username}
                   onChange={handleChange}
-                  className={`w-full pl-9 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-all duration-200 bg-white ${
-                    errors.username
+                  className={`w-full pl-9 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-all duration-200 bg-white ${errors.username
                       ? "border-red-500 focus:ring-red-300"
                       : "border-gray-300 focus:ring-blue-300"
-                  }`}
+                    }`}
                 />
                 <User className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500" size={16} />
                 {errors.username && (
@@ -277,11 +273,10 @@ const Register = () => {
                   placeholder="Email Address"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`w-full pl-9 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-all duration-200 bg-white ${
-                    errors.email
+                  className={`w-full pl-9 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-all duration-200 bg-white ${errors.email
                       ? "border-red-500 focus:ring-red-300"
                       : "border-gray-300 focus:ring-blue-300"
-                  }`}
+                    }`}
                 />
                 <Mail className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500" size={16} />
                 {errors.email && (
@@ -297,11 +292,10 @@ const Register = () => {
                   placeholder="Password"
                   value={formData.password}
                   onChange={handleChange}
-                  className={`w-full pl-9 pr-8 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-all duration-200 bg-white ${
-                    errors.password
+                  className={`w-full pl-9 pr-8 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-all duration-200 bg-white ${errors.password
                       ? "border-red-500 focus:ring-red-300"
                       : "border-gray-300 focus:ring-blue-300"
-                  }`}
+                    }`}
                 />
                 <Lock className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500" size={16} />
                 <button
@@ -323,11 +317,10 @@ const Register = () => {
                   placeholder="Confirm Password"
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  className={`w-full pl-9 pr-8 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-all duration-200 bg-white ${
-                    errors.confirmPassword
+                  className={`w-full pl-9 pr-8 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-all duration-200 bg-white ${errors.confirmPassword
                       ? "border-red-500 focus:ring-red-300"
                       : "border-gray-300 focus:ring-blue-300"
-                  }`}
+                    }`}
                 />
                 <Lock className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500" size={16} />
                 <button
