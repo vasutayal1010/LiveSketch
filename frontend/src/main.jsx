@@ -18,6 +18,7 @@ import { store } from './store/store.jsx';
 import  LoginMiddleware  from './pages/LoginMiddleware.jsx';
 import WhiteBoardsPage from './pages/WhiteBoardsPage.jsx';
 import CreateNewBoard from './components/CreateNewBoard.jsx';
+import BoardItem from './components/BoardItem.jsx';
 
 
 
@@ -30,9 +31,11 @@ const routes = createBrowserRouter(
       <Route path="/protect" element={<LoginMiddleware />} />
       <Route path="/user-profile" element={<UserProfile />} />
       <Route path="/whiteboards" element={<WhiteBoardsPage />} />
-      <Route path="/newBoard" element={<CreateNewBoard/>}/>
-      <Route element={<ProtectedRoute />}>
-      </Route>
+      <Route path="/newBoard" element={<CreateNewBoard/>} />
+
+
+      {/* <Route element={<ProtectedRoute />}> */}
+      {/*</Route>*/}
       {/* <Route path="/user-profile" element={<UserProfile />} /> */}
     </Route>
   )
