@@ -1,7 +1,7 @@
 import {io} from 'socket.io-client'
-//import { store } from '../store/store';
-//import { addActiveUserToBoard, removeActiveUserFromBoard, setElements, updateElement } from './../components/Whiteboard/whiteboardSlice';
-//import { removeCursorPosition, updateCursorPosition } from './../components/CursorOverlay/cursorSlice';
+import { store } from '../store/store';
+import { addActiveUserToBoard, removeActiveUserFromBoard, setElements, updateElement } from './../components/Whiteboard/whiteboardSlice';
+import { removeCursorPosition, updateCursorPosition } from './../components/CursorOverlay/cursorSlice';
 
 let socket;
 
