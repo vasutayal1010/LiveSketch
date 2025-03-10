@@ -1,7 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { fetchAllUsersForSystem } from '../services/apiService';
-import { createBoardWithMembers } from '../services/apiService';
 
 const CreateNewBoard = ({ canBtnHandler }) => {
     const userId = localStorage.getItem('userId');
@@ -136,37 +134,34 @@ const CreateNewBoard = ({ canBtnHandler }) => {
 
   return (
     <div className="min-h-screen relative bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100">
-      {/* Decorative background elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+       <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Large gradient circles */}
         <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-indigo-300/20 to-purple-300/20 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
         <div className="absolute top-1/2 right-0 w-96 h-96 bg-gradient-to-bl from-purple-300/20 to-pink-300/20 rounded-full blur-3xl translate-x-1/2"></div>
         <div className="absolute bottom-0 left-1/3 w-96 h-96 bg-gradient-to-tr from-pink-300/20 to-indigo-300/20 rounded-full blur-3xl"></div>
+        
+        {/* Grid pattern overlay */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#8882_1px,transparent_1px),linear-gradient(to_bottom,#8882_1px,transparent_1px)] bg-[size:24px_24px]"></div>
       </div>
 
       <div className="relative container mx-auto px-4 py-8 max-w-7xl">
-        {/* Main Title Section */}
-        <div className="relative mb-12">
-          <div className="absolute inset-0 bg-gradient-to-r from-indigo-600/20 to-purple-600/20 rounded-xl blur-xl"></div>
-          <div className="relative bg-gradient-to-r from-white/80 to-white/60 backdrop-blur-md rounded-xl p-6 border border-indigo-200 shadow-lg">
-            <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">
-              Create New Board
-            </h1>
-            <div className="mt-2 text-gray-600">
-              Create and customize your board, add team members, and set their permissions
-            </div>
-            <div className="absolute top-0 right-0 w-32 h-full bg-gradient-to-l from-white/50 to-transparent"></div>
-          </div>
-        </div>
+        <div className="absolute -top-10 right-0 w-72 h-72 bg-gradient-to-br from-indigo-400/10 to-purple-400/10 rounded-full blur-3xl"></div>
+        
+        <h1 className="relative text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 mb-8 
+               text-center drop-shadow-lg">
+  Create New Board
+</h1>
+
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div className="space-y-8">
+          <div className="space-y-6">
             {/* Board Details Form */}
             <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl p-8 border border-white/20 relative overflow-hidden">
-              <SectionTitle title="Board Details" />
+              <div className="absolute -top-24 -right-24 w-48 h-48 bg-gradient-to-br from-indigo-400/10 to-purple-400/10 rounded-full blur-2xl"></div>
+              <h2 className="text-2xl font-semibold text-gray-800 mb-6 relative">Board Details</h2>
               <form ref={formRef} onSubmit={handleSubmit} className="space-y-6 relative">
                 <div className="space-y-2">
-                  <label className="block text-sm font-medium text-gray-700">Board Title</label>
+                  <label className="text-sm font-medium text-gray-700">Board Title</label>
                   <input
                     type="text"
                     placeholder="Enter board title"
@@ -176,7 +171,7 @@ const CreateNewBoard = ({ canBtnHandler }) => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="block text-sm font-medium text-gray-700">Description</label>
+                  <label className="text-sm font-medium text-gray-700">Description</label>
                   <textarea
                     placeholder="Enter board description"
                     value={boardDescription}
@@ -205,8 +200,9 @@ const CreateNewBoard = ({ canBtnHandler }) => {
 
             {/* Added Members */}
             <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl p-8 border border-white/20 relative overflow-hidden">
-              <SectionTitle title="Added Members" />
-              <div className="overflow-y-auto max-h-[400px] scrollbar-thin scrollbar-thumb-indigo-500 scrollbar-track-gray-100 relative">
+            <div className="absolute -top-24 -right-24 w-48 h-48 bg-gradient-to-br from-pink-400/10 to-indigo-400/10 rounded-full blur-2xl"></div>
+            <h2 className="text-2xl font-semibold text-gray-800 mb-6 relative">Available Users</h2>
+            <div className="overflow-y-auto max-h-[800px] scrollbar-thin scrollbar-thumb-indigo-500 scrollbar-track-gray-100 relative">
                 {addedMembers.map(member => (
                   <UserCard 
                     key={member._id}
@@ -224,9 +220,9 @@ const CreateNewBoard = ({ canBtnHandler }) => {
           </div>
 
           {/* Available Users */}
-          <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl p-8 border border-white/20 relative overflow-hidden">
-            <SectionTitle title="Available Users" />
-            <div className="overflow-y-auto max-h-[800px] scrollbar-thin scrollbar-thumb-indigo-500 scrollbar-track-gray-100 relative">
+          <div className="bg-white/70 backdrop-blur-md rounded-2xl shadow-xl p-8 border border-gray-100">
+            <h2 className="text-2xl font-semibold text-gray-800 mb-6">Available Users</h2>
+            <div className="overflow-y-auto max-h-[800px] scrollbar-thin scrollbar-thumb-indigo-500 scrollbar-track-gray-100">
               {allUsers.map(user => (
                 <UserCard 
                   key={user._id}
@@ -243,7 +239,7 @@ const CreateNewBoard = ({ canBtnHandler }) => {
           </div>
         </div>
 
-        {/* Notification remains the same */}
+        {/* Notification */}
         {notification.show && (
           <div className={`fixed bottom-4 right-4 px-6 py-3 rounded-xl shadow-lg ${
             notification.type === 'error' 
