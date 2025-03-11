@@ -76,37 +76,38 @@ const createBoardWithMembers = async (req, res, next) => {
 // get board by id
 
 const getBoardDetails = async (req, res, next) => {
-  try {
-    const boardId = req.params;
+   try {
+     const { boardId } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(boardId)) {
-      return res.status(400).json({
-        message: "Invalid boardId",
-        success: false,
-      });
-    }
+     if (!mongoose.Types.ObjectId.isValid(boardId)) {
+       return res.status(400).json({
+         message: "Invalid boardId",
+         success: false,
+       });
+     }
 
-    const board = await Board.findById(boardId)
-      //.populate('createdBy', 'username email')
-      .populate("members", "username email");
-    if (!board) {
-      res.status(404).json({
-        message: "Board doesnot exist",
-        success: false,
-      });
-    }
-    res.status(200).json({
-      message: "Board retrieved successfully",
-      success: true,
-      boardDetails: board,
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: "Failed to retrieve board",
-      success: false,
-      error: error.message,
-    });
-  }
+     const board = await Board.findById(boardId);
+
+     if (!board) {
+       return res.status(404).json({
+         message: "Board not found",
+         success: false,
+       });
+     }
+
+     // Return board details in the response
+     res.status(200).json({
+       message: "Board details retrieved successfully",
+       board,
+       success: true,
+     });
+   } catch (error) {
+     console.error(error);
+     res.status(500).json({
+       message: "Internal server error",
+       success: false,
+     });
+   }
 };
 
 // delete board by id
