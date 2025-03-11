@@ -99,7 +99,7 @@ const Home = () => {
   useEffect(() => {
     const animationInterval = setInterval(() => {
       setIsDrawing(prev => !prev);
-    }, 3000);
+    }, 1000);
     
     return () => clearInterval(animationInterval);
   }, []);
@@ -161,7 +161,7 @@ const Home = () => {
             <span className="animate-pulse">|</span>
           </h1>
         </div>
-        <p className="text-xl md:text-2xl mb-12 text-purple-200 animate-fade-in-up">
+        <p className="text-xl md:text-2xl mb-12 text-purple-200 ">
           Create, collaborate, and bring your ideas to life with our powerful digital whiteboard platform.
         </p>
         <div className="space-x-6">
@@ -337,7 +337,7 @@ const Home = () => {
               <div className={`pl-4 transition-opacity duration-300 ${isTyping ? 'opacity-100' : 'opacity-0'}`}>
               <span className="text-purple-400">const</span> config = {'{'}  theme: 'dark', 
         language: 'en', 
-        fontSize: 16, <br/>
+        font: 16, <br/>
         enableNotifications: true,
         autoSave: false,<br/>
         shortcuts: {'{'}

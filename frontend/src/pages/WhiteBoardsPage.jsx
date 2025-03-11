@@ -24,7 +24,7 @@ const WhiteBoardsPage = () => {
 
   const openHandleClick = (boardId) => {
     localStorage.setItem("boardId", boardId);
-    navigate(`../whiteboards/${boardId}`);
+    navigate(`../whiteboard/${boardId}`);
   };
 
   const handleDeleteBoard = async (boardId) => {

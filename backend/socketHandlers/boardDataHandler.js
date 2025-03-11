@@ -1,4 +1,4 @@
-import BoardContent from "../models/boardContentModel.js";
+import {BoardContent} from "../models/boardContentModel.js";
 
 
 //function to check if board exists with given boardId

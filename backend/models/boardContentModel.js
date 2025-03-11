@@ -5,4 +5,4 @@ const boardContentSchema = new mongoose.Schema({
     boardElements: [mongoose.Schema.Types.Mixed]
 })
 
-module.exports = mongoose.model("BoardContent", boardContentSchema);
+export const BoardContent =  mongoose.model("BoardContent", boardContentSchema);

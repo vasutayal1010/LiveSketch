@@ -10,7 +10,7 @@ import circleIcon from './../../resources/icons/circle.svg';
 import { toolTypes } from "./../../constants";
 import { useDispatch, useSelector } from "react-redux";
 import { setElements, setToolType } from "./whiteboardSlice";
-import { disconnectSocketConnection, emitClearWhiteboard } from "./../../socketConn/socketConn";
+import { disconnectSocketConnection, emitClearWhiteboard } from "../../socketConnection/socketConn";
 
 import { Button } from '@mui/material';
 import { ArrowBack, Info } from '@mui/icons-material';

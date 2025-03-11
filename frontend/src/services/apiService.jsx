@@ -103,3 +103,13 @@ export const deleteBoardById = async (boardId) => {
     throw error;
   }
 };
+
+export const fetchBoardInfo = async (boardId) => {
+  try {
+    const response = await axios.get(`${API_URL}/api/v1/board/${boardId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching board data:", error);
+    throw error;
+  }
+};

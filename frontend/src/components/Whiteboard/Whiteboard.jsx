@@ -16,7 +16,7 @@ import {
 } from "./utils";
 import { v4 as uuid } from "uuid";
 import { updateElement as updateElementInStore } from "./whiteboardSlice";
-import { emitCursorPosition } from "./../../socketConn/socketConn";
+import { emitCursorPosition } from "../../socketConnection/socketConn";
 
 let emitCursor = true;
 let lastCursorPosition;

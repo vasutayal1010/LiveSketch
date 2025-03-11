@@ -8,11 +8,11 @@ import  {
   updateBoardElementWithBoardId,
   setWhiteBoardClearWithBoardId,
   getSocketIdFromUserId,
-} from "./../utils/socketDataStore";
-import { addUserSession } from "./../utils/socketDataStore";
+} from "./../utils/socketDataStore.js";
 
 
-const User = require("./../models/userModel");
+
+import { User } from "../models/userModel.js";
 
 const userConnectHandler = async (io, socket, userId, boardId) => {
   console.log(`userConnectHandler called with ${userId}, ${boardId}`);

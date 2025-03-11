@@ -1,8 +1,8 @@
 import {
   doesBoardExist,
   getBoardContentById,
-  createNewBoard,
-} from "../handler/boardDataHandler";
+  createNewBoard}
+  from '../socketHandlers/boardDataHandler.js'
 
 const userSessions = new Map();
 const userBoards = new Map();

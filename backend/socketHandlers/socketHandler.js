@@ -1,11 +1,11 @@
-import Server from "socket.io";
+import {Server} from "socket.io";
 import {
   userConnectHandler,
   userDisconnectHandler,
   elementUpdateHandler,
   whiteboardClearHandler,
   cursorPositionHandler,
-} from "./socketEventhandler";
+} from "./socketEventHandler.js";
 
 const initSocket = (server) => {
   const io = new Server(server, {

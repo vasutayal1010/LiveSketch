@@ -1,3 +1,6 @@
-export { toolTypes } from "./toolType";
-export { actions } from "./actions";
-export { cursorPositions } from "./cursorPosition";
+export const actions = {
+  DRAWING: "DRAWING",
+  WRITING: "WRITING",
+  MOVING: "MOVING",
+  RESIZING: "RESIZING",
+};
