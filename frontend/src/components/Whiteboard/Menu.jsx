@@ -30,6 +30,8 @@ import {
   Dashboard,
   Person,
   Bookmark,
+  Mail,
+  Badge,
 } from "@mui/icons-material";
 import Avatar from "@mui/material/Avatar";
 import AvatarGroup from "@mui/material/AvatarGroup";
@@ -40,6 +42,8 @@ import {
   DialogContent,
   DialogTitle,
   Typography,
+  Chip,
+  Tooltip,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { fetchBoardInfo } from "../../services/apiService";
@@ -144,6 +148,25 @@ const Menu = ({ canvasRef }) => {
     });
   };
 
+  // Function to get avatar color based on name
+  const stringToColor = (string) => {
+    let hash = 0;
+    for (let i = 0; i < string.length; i++) {
+      hash = string.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    let color = "#";
+    for (let i = 0; i < 3; i++) {
+      const value = (hash >> (i * 8)) & 0xff;
+      color += ("00" + value.toString(16)).substr(-2);
+    }
+    return color;
+  };
+
+  // Function to get initials from name
+  const getInitials = (firstName, lastName) => {
+    return `${firstName.charAt(0)}${lastName ? lastName.charAt(0) : ""}`;
+  };
+
   return (
     <>
       <div className="menu_container">
@@ -192,8 +215,15 @@ const Menu = ({ canvasRef }) => {
 
         <AvatarGroup max={4} onClick={handleAvatarIconsClick}>
           {boardMembers.map((member, index) => (
-            <Avatar alt={member.firstName} key={index}>
-              {member.firstName.charAt(0)}
+            <Avatar
+              alt={member.firstName}
+              key={index}
+              sx={{
+                bgcolor: stringToColor(member.firstName + member.lastName),
+                cursor: "pointer",
+              }}
+            >
+              {getInitials(member.firstName, member.lastName)}
             </Avatar>
           ))}
         </AvatarGroup>
@@ -360,31 +390,120 @@ const Menu = ({ canvasRef }) => {
         </Dialog>
       )}
 
+      {/* Improved Active Members Dialog */}
       <Dialog
         open={openActiveMembers}
         onClose={handleActiveIconsClose}
-        aria-labelledby="active-members-dialog-title"
+        maxWidth="sm"
+        fullWidth
+        PaperProps={{
+          sx: { borderRadius: 2 },
+        }}
       >
-        <DialogTitle id="active-members-dialog-title">
-          Active Members
+        <DialogTitle
+          sx={{
+            backgroundColor: "#f5f5f5",
+            borderBottom: "1px solid #e0e0e0",
+            display: "flex",
+            alignItems: "center",
+            gap: 1.5,
+          }}
+        >
+          <Person color="primary" />
+          <Typography variant="h6">
+            Active Members ({boardMembers.length})
+          </Typography>
         </DialogTitle>
-        <DialogContent>
-          {boardMembers &&
-            boardMembers.map((member, index) => (
-              <Typography
+
+        <DialogContent sx={{ px: 2, py: 3 }}>
+          <List sx={{ width: "100%" }}>
+            {boardMembers.map((member, index) => (
+              <ListItem
                 key={index}
-                variant="body2"
-                color="textPrimary"
-                component="div"
-                style={{ marginTop: 1 }}
+                divider={index !== boardMembers.length - 1}
+                sx={{
+                  py: 2,
+                  px: 1,
+                  borderRadius: 1,
+                  "&:hover": {
+                    backgroundColor: "#f9f9f9",
+                  },
+                }}
               >
-                {member.email} | {member.username} | {member.firstName} |{" "}
-                {member.lastName}
-              </Typography>
+                <ListItemAvatar>
+                  <Avatar
+                    sx={{
+                      bgcolor: stringToColor(
+                        member.firstName + member.lastName
+                      ),
+                      width: 48,
+                      height: 48,
+                    }}
+                  >
+                    {getInitials(member.firstName, member.lastName)}
+                  </Avatar>
+                </ListItemAvatar>
+
+                <ListItemText
+                  primary={
+                    <Typography variant="subtitle1" sx={{ fontWeight: 500 }}>
+                      {member.firstName} {member.lastName}
+                    </Typography>
+                  }
+                  secondary={
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 0.5,
+                        mt: 0.5,
+                      }}
+                    >
+                      <Box
+                        sx={{ display: "flex", alignItems: "center", gap: 1 }}
+                      >
+                        <Mail fontSize="small" color="action" />
+                        <Typography variant="body2" color="text.secondary">
+                          {member.email}
+                        </Typography>
+                      </Box>
+
+                      <Box
+                        sx={{ display: "flex", alignItems: "center", gap: 1 }}
+                      >
+                        <Badge fontSize="small" color="action" />
+                        <Typography variant="body2" color="text.secondary">
+                          @{member.username}
+                        </Typography>
+                      </Box>
+                    </Box>
+                  }
+                />
+
+                <Chip
+                  label="Active"
+                  size="small"
+                  color="success"
+                  sx={{ ml: 1 }}
+                />
+              </ListItem>
             ))}
+          </List>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleActiveIconsClose} color="primary">
+
+        <DialogActions
+          sx={{
+            padding: 2,
+            backgroundColor: "#f5f5f5",
+            borderTop: "1px solid #e0e0e0",
+            justifyContent: "center",
+          }}
+        >
+          <Button
+            onClick={handleActiveIconsClose}
+            variant="contained"
+            sx={{ minWidth: 120 }}
+          >
             Close
           </Button>
         </DialogActions>

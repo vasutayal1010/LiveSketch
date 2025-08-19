@@ -73,7 +73,7 @@ const createBoardWithMembers = async (req, res, next) => {
   }
 };
 
-// get board by id
+// get board by i
 
 const getBoardDetails = async (req, res, next) => {
    try {

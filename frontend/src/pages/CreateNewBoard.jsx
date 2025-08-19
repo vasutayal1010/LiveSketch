@@ -68,9 +68,9 @@ const CreateNewBoard = ({ canBtnHandler }) => {
 
   const filteredUsers = allUsers.filter(
     (user) =>
-      user.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      user.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchQuery.toLowerCase())
+      user.firstName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      user.lastName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      user.email?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   // ... (keep existing handler functions)
@@ -256,7 +256,7 @@ const CreateNewBoard = ({ canBtnHandler }) => {
                   >
                     <div className="flex items-center gap-3">
                       <Avatar className="bg-blue-500">
-                        {user.firstName[0]}
+                        {user?.firstName?.[0]}
                       </Avatar>
                       <div>
                         <Typography variant="subtitle1" className="font-medium">

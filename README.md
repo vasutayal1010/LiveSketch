@@ -70,6 +70,51 @@ The following technologies and tools have been equipped to develop this project 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+
+
+## Screenshots
+
+### 🏠 Home Page
+<p align="center">
+  <img src="frontend\screenshots\HomePage.png" alt="Home Page" width="700"/>
+</p>
+
+### 🔑 Register Page
+<p align="center">
+  <img src="frontend\screenshots\RegisterPage.png" alt="Register Page" width="700"/>
+</p>
+
+### 📝 Login Page
+<p align="center">
+  <img src="frontend\screenshots\LoginPage.png" alt="Login Page" width="700"/>
+</p>
+
+### 📝 CreateBoard Page
+<p align="center">
+  <img src="frontend\screenshots\CreateBoard.png" alt="CreateBoard Page" width="700"/>
+</p>
+
+
+### 📝 WhiteBoardsPage Page
+<p align="center">
+  <img src="frontend\screenshots\WhiteBoardsPage.png" alt="WhiteBoardsPage Page" width="700"/>
+</p>
+
+### 📝 Rough Canvas Page
+<p align="center">
+  <img src="frontend\screenshots\WhiteBoard-1.png" alt="Rough Canvas" width="700"/>
+</p>
+
+### 📝 RealTime Collaboration 
+<p align="center">
+  <img src="frontend\screenshots\WhiteBoard-3.png" alt="RealTine Collaboration Page" width="700"/>
+</p>
+
+### 📝 Protected Routes 
+<p align="center">
+  <img src="frontend\screenshots\ProtectedRoutes.png" alt="Protected Routes Page" width="700"/>
+</p>
+
 <!-- Database design -->
 ## Database Design
 database for CoSketch having below 3 documents and its respective structure mentioned below,

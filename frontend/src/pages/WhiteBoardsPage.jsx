@@ -233,14 +233,17 @@ const WhiteBoardsPage = () => {
                     Open Board
                   </Button>
 
-                  <Button
-                    onClick={() => handleDeleteBoard(board._id)}
-                    variant="outlined"
-                    color="error"
-                    fullWidth
-                  >
-                    Delete
-                  </Button>
+                  {/* Show Delete button only for EDITOR or OWNER */}
+                  {(board.role === "EDITOR" || board.role === "OWNER") && (
+                    <Button
+                      onClick={() => handleDeleteBoard(board._id)}
+                      variant="outlined"
+                      color="error"
+                      fullWidth
+                    >
+                      Delete
+                    </Button>
+                  )}
                 </div>
               </CardContent>
             </Card>
