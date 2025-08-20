@@ -69,9 +69,14 @@ const elementUpdateHandler = async (io, socket, eventData) => {
   const index = boardElementsData.findIndex(
     (element) => element.id === boardElements.id
   );
-  if (index === -1) return boardElementsData.push(boardElements);
+  // if (index === -1) return boardElementsData.push(boardElements);
 
-  boardElementsData[index] = boardElements;
+  // boardElementsData[index] = boardElements;
+  if (index === -1) {
+    boardElementsData.push(boardElements);
+  } else {
+    boardElementsData[index] = boardElements;
+  }
   await updateBoardElementWithBoardId(boardId, boardElementsData);
 
   // emit ELEMENT-UPDATE to the room with boardId
